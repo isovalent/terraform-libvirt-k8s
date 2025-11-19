@@ -1,0 +1,20 @@
+#cloud-config
+disable_root: false
+hostname: ${master_name}
+growpart:
+  mode: auto
+  devices:
+    - "/"
+ssh_pwauth: true
+users:
+  - name: ${master_name}
+    passwd: "$6$BIqaf9QFp8aL.H2s$uT1GsgzYhdxmKUm0q89ROxVhsvYLlvmFQtAGwOpJ.toOEnUQGvQzQfDTLI/bcEVPFBw7m/NnGzSoTdxXsF7DS."
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    groups: wheel
+    shell: /bin/bash
+    lock_passwd: false
+    ssh_authorized_keys: ${public_ssh_keys}
+package_update: true
+packages:
+  - conntrack
+  - socat
