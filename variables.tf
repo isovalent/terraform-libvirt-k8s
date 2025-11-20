@@ -73,3 +73,32 @@ variable "disable_kube_proxy" {
 }
 
 
+variable "enable_ipv6" {
+  description = "enable ipv6"
+  type        = bool
+  default     = false
+}
+
+variable "k8s_pod_cidr" {
+  description = "K8s pod CIDR"
+  type = object({
+    ipv4 = string
+    ipv6 = string
+  })
+  default = {
+    ipv4 = "10.244.0.0/16"
+    ipv6 = "fd00:10:244::/48"
+  }
+}
+
+variable "k8s_service_cidr" {
+  description = "K8s service CIDR"
+  type = object({
+    ipv4 = string
+    ipv6 = string
+  })
+  default = {
+    ipv4 = "10.96.0.0/12"
+    ipv6 = "fd00:10:96::/112"
+  }
+}

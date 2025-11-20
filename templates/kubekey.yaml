@@ -5,10 +5,10 @@ metadata:
 spec:
   hosts:
 %{ for i, master in masters_info_list ~}
-  - {name: ${master.hostname}, address: ${master.ipv4}, user: masters${i}, privateKeyPath: "~/.ssh/id_rsa"}
+  - {name: ${master.hostname}, address: %{ if enable_ipv6 }${master.ipv6}%{ else }${master.ipv4}%{ endif }, user: masters${i}, privateKeyPath: "~/.ssh/id_rsa"}
 %{ endfor ~}
 %{ for i, worker in workers_info_list ~}
-  - {name: ${worker.hostname}, address: ${worker.ipv4}, user: workers${i}, privateKeyPath: "~/.ssh/id_rsa"}
+  - {name: ${worker.hostname}, address: %{ if enable_ipv6 }${worker.ipv6}%{ else }${worker.ipv4}%{ endif }, user: workers${i}, privateKeyPath: "~/.ssh/id_rsa"}
 %{ endfor ~}
   roleGroups:
     etcd:
@@ -32,4 +32,5 @@ spec:
     nodelocaldns: false
   network:
     plugin: none
-    kubeServiceCIDR: 172.16.0.0/16
+    kubePodsCIDR: ${k8s_pod_cidr.ipv4}%{ if enable_ipv6 },${k8s_pod_cidr.ipv6}%{ endif }
+    kubeServiceCIDR: ${k8s_service_cidr.ipv4}%{ if enable_ipv6 },${k8s_service_cidr.ipv6}%{ endif }
