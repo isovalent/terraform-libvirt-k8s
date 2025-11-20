@@ -4,8 +4,7 @@ set -euxo pipefail
 
 echo "Waiting for local cloud-init to finish..."
 cloud-init status --wait
-echo "Local cloud-init finished." 
-
+echo "Local cloud-init finished."
 
 echo "Waiting for nodes to become reachable..."
 # Use a for loop to iterate over the output of the jq command.
@@ -26,5 +25,6 @@ done
 
 echo "All nodes are reachable. Proceeding with Kubernetes installation."
 
-VERSION=v3.1.11 curl -sfL https://get-kk.kubesphere.io | sh -
+# use the url 4.0.1 url until https://github.com/kubesphere/kubekey/issues/2865 is fixed
+VERSION=v3.1.11 curl -sfL https://github.com/kubesphere/kubekey/releases/download/v4.0.1/downloadKubekey.sh | sh -
 ./kk create cluster -f ~/kubekey.yaml -y
