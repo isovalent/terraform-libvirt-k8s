@@ -5,10 +5,10 @@ metadata:
 spec:
   hosts:
 %{ for i, master in masters_info_list ~}
-  - {name: ${master.hostname}, address: ${master.ipv4}, user: masters${i}, privateKeyPath: "~/.ssh/id_rsa"}
+  - {name: ${master.hostname}, address: ${master.ipv4}, internalAddress: "${master.ipv4},${master.ipv6}", user: masters${i}, privateKeyPath: "~/.ssh/id_rsa"}
 %{ endfor ~}
 %{ for i, worker in workers_info_list ~}
-  - {name: ${worker.hostname}, address: ${worker.ipv4}, user: workers${i}, privateKeyPath: "~/.ssh/id_rsa"}
+  - {name: ${worker.hostname}, address: ${worker.ipv4}, internalAddress: "${worker.ipv4},${worker.ipv6}",  user: workers${i}, privateKeyPath: "~/.ssh/id_rsa"}
 %{ endfor ~}
   roleGroups:
     etcd:
@@ -26,10 +26,10 @@ spec:
   kubernetes:
     apiserverCertExtraSans:
     - ${livirt_host_ip}
-    containerManager: containerd
     disableKubeProxy: ${disable_kube_proxy}
     version: ${k8s_version}
     nodelocaldns: false
   network:
     plugin: none
-    kubeServiceCIDR: 172.16.0.0/16
+    kubeServiceCIDR: 172.16.0.0/16,fd85:ee78:d8a6:8607::1000/116
+    kubePodsCIDR: 10.233.64.0/18,fd85:ee78:d8a6:8607::1:0000/112
