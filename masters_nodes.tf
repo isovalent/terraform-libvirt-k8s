@@ -19,7 +19,9 @@ resource "libvirt_cloudinit_disk" "masters" {
   count          = length(var.masters_info_list)
   name           = "masters${count.index}.iso"
   pool           = var.libvirt_pool_name
-  network_config = templatefile("${path.module}/templates/masters-network-data.yaml", {})
+  network_config = templatefile("${path.module}/templates/masters-network-data.yaml", {
+    ipv6_address = var.masters_info_list[count.index].ipv6
+  })
   user_data = templatefile("${path.module}/templates/masters-user-data.yaml", {
     master_name = "masters${count.index}"
     public_ssh_keys = jsonencode([

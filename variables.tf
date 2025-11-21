@@ -72,4 +72,34 @@ variable "disable_kube_proxy" {
   type        = string
 }
 
+variable "kube_service_cidrs" {
+  description = "CIDRs for Kubernetes services."
+  type = object({
+    ipv4 = string
+    ipv6 = string
+  })
+  default = {
+    ipv4 = "10.96.0.0/12"
+    ipv6 = "fd00:10:96::/112"
+  }
+}
+
+variable "kube_pods_cidrs" {
+  description = "CIDRs for Kubernetes pods."
+  type = object({
+    ipv4 = string
+    ipv6 = string
+  })
+  default = {
+    ipv4 = "10.244.0.0/16"
+    ipv6 = "fd00:10:244::/104"
+  }
+}
+
+variable "enable_ipv6" {
+  description = "Enable IPv6 for the Kubernetes cluster."
+  type        = bool
+  default     = false
+}
+
 
