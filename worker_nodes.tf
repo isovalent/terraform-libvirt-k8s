@@ -20,6 +20,7 @@ resource "libvirt_cloudinit_disk" "workers" {
   name  = "workers${count.index}.iso"
   pool  = var.libvirt_pool_name
   network_config = templatefile("${path.module}/templates/workers-network-data.yaml", {
+    ipv6_address = var.workers_info_list[count.index].ipv6
   })
   user_data = templatefile("${path.module}/templates/workers-user-data.yaml", {
     worker_name = "workers${count.index}"

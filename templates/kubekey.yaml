@@ -5,10 +5,10 @@ metadata:
 spec:
   hosts:
 %{ for i, master in masters_info_list ~}
-  - {name: ${master.hostname}, address: ${master.ipv4}, user: masters${i}, privateKeyPath: "~/.ssh/id_rsa"}
+  - {name: ${master.hostname}, address: ${master.ipv4}, internalAddress: "${master.ipv4}%{ if enable_ipv6 },${master.ipv6}%{ endif }", user: masters${i}, privateKeyPath: "~/.ssh/id_rsa"}
 %{ endfor ~}
 %{ for i, worker in workers_info_list ~}
-  - {name: ${worker.hostname}, address: ${worker.ipv4}, user: workers${i}, privateKeyPath: "~/.ssh/id_rsa"}
+  - {name: ${worker.hostname}, address: ${worker.ipv4}, internalAddress: "${worker.ipv4}%{ if enable_ipv6 },${worker.ipv6}%{ endif }",  user: workers${i}, privateKeyPath: "~/.ssh/id_rsa"}
 %{ endfor ~}
   roleGroups:
     etcd:
@@ -26,10 +26,11 @@ spec:
   kubernetes:
     apiserverCertExtraSans:
     - ${livirt_host_ip}
-    containerManager: containerd
     disableKubeProxy: ${disable_kube_proxy}
+    containerManager: containerd
     version: ${k8s_version}
     nodelocaldns: false
   network:
     plugin: none
-    kubeServiceCIDR: 172.16.0.0/16
+    kubeServiceCIDR: ${kube_service_cidrs.ipv4}%{ if enable_ipv6 },${kube_service_cidrs.ipv6}%{ endif }
+    kubePodsCIDR: ${kube_pods_cidrs.ipv4}%{ if enable_ipv6 },${kube_pods_cidrs.ipv6}%{ endif }

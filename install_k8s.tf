@@ -6,6 +6,9 @@ resource "local_file" "kubekey_config" {
     workers_info_list  = var.workers_info_list
     livirt_host_ip     = var.libvirt_host_ip
     disable_kube_proxy = var.disable_kube_proxy
+    kube_service_cidrs = var.kube_service_cidrs
+    kube_pods_cidrs    = var.kube_pods_cidrs
+    enable_ipv6       = var.enable_ipv6
   })
 }
 
