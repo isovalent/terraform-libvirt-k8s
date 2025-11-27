@@ -39,8 +39,8 @@ Upon successful completion, the `kubeconfig` file for your new cluster will be a
 | Name | Version |
 |------|---------|
 | <a name="provider_libvirt"></a> [libvirt](#provider\_libvirt) | 0.7.6 |
-| <a name="provider_local"></a> [local](#provider\_local) | 2.5.3 |
-| <a name="provider_null"></a> [null](#provider\_null) | 3.2.4 |
+| <a name="provider_local"></a> [local](#provider\_local) | n/a |
+| <a name="provider_null"></a> [null](#provider\_null) | n/a |
 | <a name="provider_remote"></a> [remote](#provider\_remote) | 0.2.1 |
 
 ## Modules
@@ -70,15 +70,18 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_disable_kube_proxy"></a> [disable\_kube\_proxy](#input\_disable\_kube\_proxy) | disable kubeproxy | `string` | `"true"` | no |
+| <a name="input_enable_ipv6"></a> [enable\_ipv6](#input\_enable\_ipv6) | Enable IPv6 for the Kubernetes cluster. | `bool` | `false` | no |
 | <a name="input_image_download_base_url"></a> [image\_download\_base\_url](#input\_image\_download\_base\_url) | the base url of the images | `string` | n/a | yes |
 | <a name="input_k8s_version"></a> [k8s\_version](#input\_k8s\_version) | the version of the k8s | `string` | n/a | yes |
+| <a name="input_kube_pods_cidrs"></a> [kube\_pods\_cidrs](#input\_kube\_pods\_cidrs) | CIDRs for Kubernetes pods. | <pre>object({<br/>    ipv4 = string<br/>    ipv6 = string<br/>  })</pre> | <pre>{<br/>  "ipv4": "10.244.0.0/16",<br/>  "ipv6": "fd00:10:244::/104"<br/>}</pre> | no |
+| <a name="input_kube_service_cidrs"></a> [kube\_service\_cidrs](#input\_kube\_service\_cidrs) | CIDRs for Kubernetes services. | <pre>object({<br/>    ipv4 = string<br/>    ipv6 = string<br/>  })</pre> | <pre>{<br/>  "ipv4": "10.96.0.0/12",<br/>  "ipv6": "fd00:10:96::/112"<br/>}</pre> | no |
 | <a name="input_libvirt_host_ip"></a> [libvirt\_host\_ip](#input\_libvirt\_host\_ip) | The IP address of the libvirt host. | `string` | n/a | yes |
 | <a name="input_libvirt_pool_name"></a> [libvirt\_pool\_name](#input\_libvirt\_pool\_name) | The libvirt pool name. | `string` | n/a | yes |
 | <a name="input_libvirt_private_network_id"></a> [libvirt\_private\_network\_id](#input\_libvirt\_private\_network\_id) | The libvirt private network id. | `string` | n/a | yes |
 | <a name="input_libvirt_root_private_key_path"></a> [libvirt\_root\_private\_key\_path](#input\_libvirt\_root\_private\_key\_path) | The private key path of the libvirt host. | `string` | n/a | yes |
 | <a name="input_masters_info_list"></a> [masters\_info\_list](#input\_masters\_info\_list) | The list of master nodes. | <pre>list(object({<br/>    ipv4     = string<br/>    ipv6     = string<br/>    mac      = string<br/>    hostname = string<br/>  }))</pre> | n/a | yes |
 | <a name="input_nodes_os_image_name"></a> [nodes\_os\_image\_name](#input\_nodes\_os\_image\_name) | the name of the os image | `string` | `"ubuntu-22.04.3-kernel-5.15.0-92.iso"` | no |
-| <a name="input_testbox_info"></a> [testbox\_info](#input\_testbox\_info) | the testbox info | <pre>object({<br/>    public_ip   = string<br/>    username    = string<br/>    public_port = string<br/>    private_key = string<br/>    public_key = string<br/>  })</pre> | n/a | yes |
+| <a name="input_testbox_info"></a> [testbox\_info](#input\_testbox\_info) | the testbox info | <pre>object({<br/>    public_ip   = string<br/>    username    = string<br/>    public_port = string<br/>    private_key = string<br/>    public_key  = string<br/>  })</pre> | n/a | yes |
 | <a name="input_workers_info_list"></a> [workers\_info\_list](#input\_workers\_info\_list) | The list of worker nodes. | <pre>list(object({<br/>    ipv4     = string<br/>    ipv6     = string<br/>    mac      = string<br/>    hostname = string<br/>  }))</pre> | n/a | yes |
 
 ## Outputs
